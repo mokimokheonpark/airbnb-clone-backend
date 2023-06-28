@@ -1,1 +1,1 @@
-# Working on backend of Airbnb-Clone Project using Django
+# Currently working on the backend development of an Airbnb-Clone Project using Django framework.

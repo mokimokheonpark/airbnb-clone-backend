@@ -1,25 +1,14 @@
 from django.db import models
+from common.models import CommonModel
 
 
-class Room(models.Model):
+class Room(CommonModel):
     # Room Model Definition
 
     class RoomKindChoices(models.TextChoices):
         ENTIRE_PLACE = ("entire_place", "Entire Place")
         PRIVATE_ROOM = ("private_room", "Private Room")
         SHARED_ROOM = ("shared_room", "Shared Room")
-
-    class Amenity(models.Model):
-        # Amenity Definition
-
-        name = models.CharField(
-            max_length=50,
-        )
-
-        description = models.CharField(
-            max_length=100,
-            null=True,
-        )
 
     country = models.CharField(
         max_length=50,
@@ -46,7 +35,9 @@ class Room(models.Model):
 
     toilets = models.PositiveBigIntegerField()
 
-    amenities = models.ManyToManyField("rooms.Amenity")
+    amenities = models.ManyToManyField(
+        "rooms.Amenity",
+    )
 
     pet_friendly = models.BooleanField(
         default=True,
@@ -59,6 +50,16 @@ class Room(models.Model):
         on_delete=models.CASCADE,
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
 
-    updated_at = models.DateTimeField(auto_now=True)
+class Amenity(CommonModel):
+    # Amenity Definition
+
+    name = models.CharField(
+        max_length=50,
+    )
+
+    description = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )

@@ -2,13 +2,20 @@ from django.db import models
 from common.models import CommonModel
 
 
+# Room Model Definition
 class Room(CommonModel):
-    # Room Model Definition
+    def __str__(self) -> str:
+        return self.name
 
     class RoomKindChoices(models.TextChoices):
         ENTIRE_PLACE = ("entire_place", "Entire Place")
         PRIVATE_ROOM = ("private_room", "Private Room")
         SHARED_ROOM = ("shared_room", "Shared Room")
+
+    name = models.CharField(
+        max_length=100,
+        default="",
+    )
 
     country = models.CharField(
         max_length=50,
@@ -51,8 +58,13 @@ class Room(CommonModel):
     )
 
 
+# Amenity Definition
 class Amenity(CommonModel):
-    # Amenity Definition
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Amenities"
 
     name = models.CharField(
         max_length=50,

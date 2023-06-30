@@ -42,6 +42,13 @@ class Experience(CommonModel):
         on_delete=models.CASCADE,
     )
 
+    category = models.ForeignKey(
+        "categories.Category",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
 
 # Perk Definition
 # Something included on an Experience

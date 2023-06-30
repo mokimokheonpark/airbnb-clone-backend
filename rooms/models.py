@@ -57,6 +57,13 @@ class Room(CommonModel):
         on_delete=models.CASCADE,
     )
 
+    category = models.ForeignKey(
+        "categories.Category",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
 
 # Amenity Definition
 class Amenity(CommonModel):

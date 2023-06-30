@@ -17,6 +17,7 @@ class ExperienceAdmin(admin.ModelAdmin):
         "country",
         "city",
         "price",
+        "category",
     )
 
 

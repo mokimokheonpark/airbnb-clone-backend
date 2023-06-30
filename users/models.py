@@ -14,7 +14,7 @@ class User(AbstractUser):
     class CurrencyChocies(models.TextChoices):
         CAD = ("cad", "Canadian Dollar")
         USD = ("usd", "United States Dollar")
-        KRW = ("won", "Korean Won")
+        KRW = ("krw", "Korean Won")
 
     first_name = models.CharField(
         max_length=150,

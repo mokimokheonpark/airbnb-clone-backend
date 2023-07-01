@@ -6,7 +6,7 @@ from common.models import CommonModel
 # Category of Room or Experience
 class Category(CommonModel):
     def __str__(self) -> str:
-        return f"{self.kind.title()}: {self.name}"
+        return f"{self.category_kind.title()}: {self.name}"
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -19,7 +19,7 @@ class Category(CommonModel):
         max_length=50,
     )
 
-    kind = models.CharField(
+    category_kind = models.CharField(
         max_length=15,
         choices=CategoryKindChoices.choices,
     )

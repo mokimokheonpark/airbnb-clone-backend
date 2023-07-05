@@ -10,6 +10,16 @@ class Room(CommonModel):
     def total_amenities(self):
         return self.amenities.count()
 
+    def rating(self):
+        rating_count = self.reviews.count()
+        if rating_count == 0:
+            return "No Reviews"
+        rating_sum = 0
+        for review in self.reviews.all().values("rating"):
+            rating_sum += review["rating"]
+        rating_average = rating_sum / rating_count
+        return round(rating_average, 1)
+
     class RoomKindChoices(models.TextChoices):
         ENTIRE_PLACE = ("entire_place", "Entire Place")
         PRIVATE_ROOM = ("private_room", "Private Room")

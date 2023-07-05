@@ -9,6 +9,7 @@ class MessageRoom(CommonModel):
 
     users = models.ManyToManyField(
         "users.User",
+        related_name="message_rooms",
     )
 
 
@@ -22,6 +23,7 @@ class Message(CommonModel):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="messages",
     )
 
     text = models.TextField()
@@ -29,4 +31,5 @@ class Message(CommonModel):
     room = models.ForeignKey(
         "direct_messages.MessageRoom",
         on_delete=models.CASCADE,
+        related_name="messages",
     )

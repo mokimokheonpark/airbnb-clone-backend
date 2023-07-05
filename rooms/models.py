@@ -7,6 +7,9 @@ class Room(CommonModel):
     def __str__(self) -> str:
         return self.name
 
+    def total_amenities(self):
+        return self.amenities.count()
+
     class RoomKindChoices(models.TextChoices):
         ENTIRE_PLACE = ("entire_place", "Entire Place")
         PRIVATE_ROOM = ("private_room", "Private Room")
@@ -44,6 +47,7 @@ class Room(CommonModel):
 
     amenities = models.ManyToManyField(
         "rooms.Amenity",
+        related_name="rooms",
     )
 
     pet_friendly = models.BooleanField(
@@ -55,6 +59,7 @@ class Room(CommonModel):
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+        related_name="rooms",
     )
 
     category = models.ForeignKey(
@@ -62,6 +67,7 @@ class Room(CommonModel):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="rooms",
     )
 
 

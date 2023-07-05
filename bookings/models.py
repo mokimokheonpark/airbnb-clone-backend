@@ -14,6 +14,7 @@ class Booking(CommonModel):
     user = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+        related_name="bookings",
     )
 
     guests = models.PositiveIntegerField()
@@ -28,6 +29,7 @@ class Booking(CommonModel):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="bookings",
     )
 
     room_check_in = models.DateField(
@@ -45,6 +47,7 @@ class Booking(CommonModel):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="bookings",
     )
 
     experience_time = models.DateTimeField(

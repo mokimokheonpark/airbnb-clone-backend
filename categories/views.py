@@ -31,12 +31,14 @@ class CategoryDetail(APIView):
             raise NotFound
 
     def get(self, request, pk):
-        serializer = CategorySerializer(self.get_object(pk))
+        category = self.get_object(pk)
+        serializer = CategorySerializer(category)
         return Response(serializer.data)
 
     def put(self, request, pk):
+        category = self.get_object(pk)
         serializer = CategorySerializer(
-            self.get_object(pk),
+            category,
             data=request.data,
             partial=True,
         )
@@ -46,5 +48,6 @@ class CategoryDetail(APIView):
         return Response(CategorySerializer(updated_category).data)
 
     def delete(self, request, pk):
-        self.get_object(pk).delete()
+        category = self.get_object(pk)
+        category.delete()
         return Response(status=HTTP_204_NO_CONTENT)

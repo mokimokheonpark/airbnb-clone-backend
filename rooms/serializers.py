@@ -30,6 +30,9 @@ class RoomDetailSerializer(ModelSerializer):
         model = Room
         fields = "__all__"
 
-    amenities = AmenitySerializer(many=True)
-    owner = TinyUserSerializer()
-    category = CategorySerializer()
+    amenities = AmenitySerializer(
+        read_only=True,
+        many=True,
+    )
+    owner = TinyUserSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)

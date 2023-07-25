@@ -1,9 +1,9 @@
 from django.urls import path
-from . import views
+from .views import Rooms, RoomDetail, Amenities, AmenityDetail
 
 urlpatterns = [
-    path("", views.Rooms.as_view()),
-    path("<int:pk>", views.RoomDetail.as_view()),
-    path("amenities/", views.Amenities.as_view()),
-    path("amenities/<int:pk>", views.AmenityDetail.as_view()),
+    path("", Rooms.as_view()),
+    path("<int:pk>", RoomDetail.as_view()),
+    path("amenities/", Amenities.as_view()),
+    path("amenities/<int:pk>", AmenityDetail.as_view()),
 ]

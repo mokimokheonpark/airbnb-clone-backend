@@ -20,7 +20,8 @@ class Categories(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors)
         new_category = serializer.save()
-        return Response(CategorySerializer(new_category).data)
+        serializer = CategorySerializer(new_category)
+        return Response(serializer.data)
 
 
 class CategoryDetail(APIView):
@@ -45,7 +46,8 @@ class CategoryDetail(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors)
         updated_category = serializer.save()
-        return Response(CategorySerializer(updated_category).data)
+        serializer = CategorySerializer(updated_category)
+        return Response(serializer.data)
 
     def delete(self, request, pk):
         category = self.get_object(pk)

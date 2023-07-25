@@ -138,7 +138,8 @@ class Amenities(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors)
         new_amenity = serializer.save()
-        return Response(AmenitySerializer(new_amenity).data)
+        serializer = AmenitySerializer(new_amenity)
+        return Response(serializer.data)
 
 
 class AmenityDetail(APIView):
@@ -163,7 +164,8 @@ class AmenityDetail(APIView):
         if not serializer.is_valid():
             return Response(serializer.errors)
         updated_amenity = serializer.save()
-        return Response(AmenitySerializer(updated_amenity).data)
+        serializer = AmenitySerializer(updated_amenity)
+        return Response(serializer.data)
 
     def delete(self, request, pk):
         amenity = self.get_object(pk)

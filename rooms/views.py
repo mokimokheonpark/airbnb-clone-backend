@@ -19,6 +19,7 @@ class Rooms(APIView):
         serializer = RoomListSerializer(
             all_rooms,
             many=True,
+            context={"request": request},
         )
         return Response(serializer.data)
 
@@ -51,7 +52,10 @@ class Rooms(APIView):
                 for amenity_pk in amenity_pks:
                     amenity = Amenity.objects.get(pk=amenity_pk)
                     new_room.amenities.add(amenity)
-                serializer = RoomDetailSerializer(new_room)
+                serializer = RoomDetailSerializer(
+                    new_room,
+                    context={"request": request},
+                )
                 return Response(serializer.data)
         except Exception:
             raise ParseError("Such amenity does not exist.")
@@ -66,7 +70,10 @@ class RoomDetail(APIView):
 
     def get(self, request, pk):
         room = self.get_object(pk)
-        serializer = RoomDetailSerializer(room)
+        serializer = RoomDetailSerializer(
+            room,
+            context={"request": request},
+        )
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -109,7 +116,10 @@ class RoomDetail(APIView):
                         f"The amenity with id {amenity_pk} does not exist."
                     )
 
-        serializer = RoomDetailSerializer(updated_room)
+        serializer = RoomDetailSerializer(
+            updated_room,
+            context={"request": request},
+        )
         return Response(serializer.data)
 
     def delete(self, request, pk):

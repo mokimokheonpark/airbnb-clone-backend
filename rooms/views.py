@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from .models import Amenity, Room
 from .serializers import AmenitySerializer, RoomDetailSerializer, RoomListSerializer
 from categories.models import Category
+from medias.serializers import PhotoSerializer
 from reviews.serializers import ReviewSerializer
 
 
@@ -158,6 +159,30 @@ class RoomReviews(APIView):
             many=True,
         )
         return Response(serializr.data)
+
+
+class RoomPhotos(APIView):
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except Room.DoesNotExist:
+            raise NotFound
+
+    def post(self, request, pk):
+        if not request.user.is_authenticated:
+            raise NotAuthenticated
+
+        room = self.get_object(pk)
+        if room.owner != request.user:
+            raise PermissionDenied
+
+        serializer = PhotoSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors)
+
+        new_photo = serializer.save(room=room)
+        serializer = PhotoSerializer(new_photo)
+        return Response(serializer.data)
 
 
 class RoomAmenities(APIView):

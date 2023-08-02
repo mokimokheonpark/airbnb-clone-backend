@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import transaction
 from rest_framework.exceptions import (
     NotAuthenticated,
@@ -149,7 +150,7 @@ class RoomReviews(APIView):
         except ValueError:
             page = 1
 
-        page_size = 5
+        page_size = settings.PAGE_SIZE
         start = (page - 1) * page_size
         end = start + page_size
 
@@ -198,7 +199,7 @@ class RoomAmenities(APIView):
         except ValueError:
             page = 1
 
-        page_size = 5
+        page_size = settings.PAGE_SIZE
         start = (page - 1) * page_size
         end = start + page_size
 

@@ -3,6 +3,7 @@ from .models import Amenity, Room
 from categories.serializers import CategorySerializer
 from medias.serializers import PhotoSerializer
 from users.serializers import TinyUserSerializer
+from wishlists.models import Wishlist
 
 
 class RoomListSerializer(ModelSerializer):
@@ -62,6 +63,7 @@ class RoomDetailSerializer(ModelSerializer):
 
     rating = SerializerMethodField()
     is_owner = SerializerMethodField()
+    is_on_wishlist = SerializerMethodField()
 
     def get_rating(self, room):
         return room.rating()
@@ -69,3 +71,10 @@ class RoomDetailSerializer(ModelSerializer):
     def get_is_owner(self, room):
         request = self.context["request"]
         return room.owner == request.user
+
+    def get_is_on_wishlist(self, room):
+        request = self.context["request"]
+        return Wishlist.objects.filter(
+            user=request.user,
+            rooms__pk=room.pk,
+        ).exists()

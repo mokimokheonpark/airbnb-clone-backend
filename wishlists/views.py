@@ -5,6 +5,7 @@ from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 from .models import Wishlist
 from .serializers import WishlistSerializer
+from rooms.models import Room
 
 
 class Wishlists(APIView):
@@ -64,4 +65,27 @@ class WishlistDetail(APIView):
     def delete(self, request, pk):
         wishlist = self.get_object(pk, request.user)
         wishlist.delete()
+        return Response(status=HTTP_200_OK)
+
+
+class WishlistRoom(APIView):
+    def get_wishlist_object(self, pk, user):
+        try:
+            return Wishlist.objects.get(pk=pk, user=user)
+        except Wishlist.DoesNotExist:
+            raise NotFound
+
+    def get_room_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except Room.DoesNotExist:
+            raise NotFound
+
+    def put(self, request, wishlist_pk, room_pk):
+        wishlist = self.get_wishlist_object(wishlist_pk, request.user)
+        room = self.get_room_object(room_pk)
+        if wishlist.rooms.filter(pk=room.pk).exists():
+            wishlist.rooms.remove(room)
+        else:
+            wishlist.rooms.add(room)
         return Response(status=HTTP_200_OK)

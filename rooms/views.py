@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from .models import Amenity, Room
 from .serializers import AmenitySerializer, RoomDetailSerializer, RoomListSerializer
 from bookings.models import Booking
-from bookings.serializers import PublicBookingSerializer
+from bookings.serializers import RoomBookingSerializer, PublicBookingSerializer
 from categories.models import Category
 from medias.serializers import PhotoSerializer
 from reviews.serializers import ReviewSerializer
@@ -239,6 +239,19 @@ class RoomBookings(APIView):
             bookings,
             many=True,
         )
+        return Response(serializer.data)
+
+    def post(self, request, pk):
+        room = self.get_object(pk)
+        serializer = RoomBookingSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors)
+        new_booking = serializer.save(
+            room=room,
+            user=request.user,
+            booking_kind=Booking.BookingKindChoices.ROOM,
+        )
+        serializer = PublicBookingSerializer(new_booking)
         return Response(serializer.data)
 
 

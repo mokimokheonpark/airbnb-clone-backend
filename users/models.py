@@ -46,6 +46,10 @@ class User(AbstractUser):
         choices=CurrencyChocies.choices,
     )
 
+    avatar = models.URLField(
+        blank=True,
+    )
+
     photo = models.ImageField(
         blank=True,
     )

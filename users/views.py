@@ -1,8 +1,10 @@
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import NotFound, ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
-from .serializers import PrivateUserSerializer
+from .models import User
+from .serializers import PrivateUserSerializer, PublicUserSerializer
 
 
 class Users(APIView):
@@ -23,6 +25,16 @@ class Users(APIView):
 
 
 class UserProfile(APIView):
+    def get(self, request, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound
+        serializer = PublicUserSerializer(user)
+        return Response(serializer.data)
+
+
+class MyProfile(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -42,3 +54,21 @@ class UserProfile(APIView):
         updated_user = serializer.save()
         serializer = PrivateUserSerializer(updated_user)
         return Response(serializer.data)
+
+
+class ChangePassword(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        old_password = request.data.get("old_password")
+        new_password = request.data.get("new_password")
+        if not old_password or not new_password:
+            raise ParseError
+
+        user = request.user
+        if not user.check_password(old_password):
+            raise ParseError
+
+        user.set_password(new_password)
+        user.save()
+        return Response(status=HTTP_200_OK)

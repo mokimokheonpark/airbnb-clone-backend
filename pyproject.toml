@@ -12,6 +12,8 @@ python = "^3.11"
 django = "^4.2.2"
 pillow = "^9.5.0"
 djangorestframework = "^3.14.0"
+pyjwt = "^2.8.0"
+django-environ = "^0.10.0"
 
 
 [build-system]

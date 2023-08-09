@@ -4,7 +4,7 @@ from django.utils import timezone
 from rest_framework.exceptions import NotFound, ParseError, PermissionDenied
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.status import HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from .models import Amenity, Room
 from .serializers import AmenitySerializer, RoomDetailSerializer, RoomListSerializer
@@ -193,31 +193,6 @@ class RoomPhotos(APIView):
         return Response(serializer.data)
 
 
-class RoomAmenities(APIView):
-    def get_object(self, pk):
-        try:
-            return Room.objects.get(pk=pk)
-        except Room.DoesNotExist:
-            raise NotFound
-
-    def get(self, request, pk):
-        try:
-            page = int(request.query_params.get("page", "1"))
-        except ValueError:
-            page = 1
-
-        page_size = settings.PAGE_SIZE
-        start = (page - 1) * page_size
-        end = start + page_size
-
-        room = self.get_object(pk)
-        serializr = AmenitySerializer(
-            room.amenities.all()[start:end],
-            many=True,
-        )
-        return Response(serializr.data)
-
-
 class RoomBookings(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -255,6 +230,31 @@ class RoomBookings(APIView):
         return Response(serializer.data)
 
 
+class RoomAmenities(APIView):
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except Room.DoesNotExist:
+            raise NotFound
+
+    def get(self, request, pk):
+        try:
+            page = int(request.query_params.get("page", "1"))
+        except ValueError:
+            page = 1
+
+        page_size = settings.PAGE_SIZE
+        start = (page - 1) * page_size
+        end = start + page_size
+
+        room = self.get_object(pk)
+        serializr = AmenitySerializer(
+            room.amenities.all()[start:end],
+            many=True,
+        )
+        return Response(serializr.data)
+
+
 class Amenities(APIView):
     def get(self, request):
         all_amenities = Amenity.objects.all()
@@ -267,7 +267,10 @@ class Amenities(APIView):
     def post(self, request):
         serializer = AmenitySerializer(data=request.data)
         if not serializer.is_valid():
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
         new_amenity = serializer.save()
         serializer = AmenitySerializer(new_amenity)
         return Response(serializer.data)
@@ -293,7 +296,10 @@ class AmenityDetail(APIView):
             partial=True,
         )
         if not serializer.is_valid():
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
         updated_amenity = serializer.save()
         serializer = AmenitySerializer(updated_amenity)
         return Response(serializer.data)

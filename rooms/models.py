@@ -81,7 +81,7 @@ class Room(CommonModel):
     )
 
 
-# Amenity Definition
+# Amenity Model Definition
 class Amenity(CommonModel):
     def __str__(self) -> str:
         return self.name

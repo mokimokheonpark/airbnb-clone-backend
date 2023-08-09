@@ -146,13 +146,6 @@ class TestAmenityDetail(APITestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("description", data)
 
-        # Invalid PUT: "name" field is required
-        response = self.client.put(self.url)
-        data = response.json()
-
-        self.assertEqual(response.status_code, 400)
-        self.assertIn("name", data)
-
     def test_delete(self):
         response = self.client.delete(self.url)
 

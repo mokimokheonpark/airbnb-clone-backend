@@ -1,10 +1,11 @@
 import jwt
+import requests
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.exceptions import NotFound, ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from .models import User
 from .serializers import PrivateUserSerializer, PublicUserSerializer
@@ -125,3 +126,54 @@ class JWTLogIn(APIView):
             algorithm="HS256",
         )
         return Response({"Token": token})
+
+
+class GitHubLogIn(APIView):
+    def post(self, request):
+        try:
+            code = request.data.get("code")
+
+            access_token = requests.post(
+                f"https://github.com/login/oauth/access_token?code={code}&client_id=c9882616a87fb7e713e1&client_secret={settings.GH_SECRET}",
+                headers={"Accept": "application/json"},
+            )
+            access_token = access_token.json().get("access_token")
+
+            user_data = request.get(
+                "https://api.github.com/user",
+                headers={
+                    "Authorization": f"Bearer {access_token}",
+                    "Accept": "application/json",
+                },
+            )
+            user_data = user_data.json()
+
+            user_emails = request.get(
+                "https://api.github.com/user/emails",
+                headers={
+                    "Authorization": f"Bearer {access_token}",
+                    "Accept": "application/json",
+                },
+            )
+            user_emails = user_emails.json()
+            print(user_emails)
+
+            try:
+                user = User.objects.get(email=user_emails[0]["email"])
+                login(request, user)
+                return Response(status=HTTP_200_OK)
+
+            except User.DoesNotExist:
+                user = User.objects.create(
+                    username=user_data.get("login"),
+                    email=user_emails[0]["email"],
+                    name=user_data.get("name"),
+                    avatar=user_data.get("avatar_url"),
+                )
+                user.set_unusable_password()
+                user.save()
+                login(request, user)
+                return Response(status=HTTP_200_OK)
+
+        except Exception:
+            return Response(status=HTTP_400_BAD_REQUEST)

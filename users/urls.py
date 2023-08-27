@@ -8,6 +8,7 @@ from .views import (
     LogIn,
     LogOut,
     JWTLogIn,
+    GitHubLogIn,
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path("log-out", LogOut.as_view()),
     path("auth-token-log-in", obtain_auth_token),  # log in with Auth Tokens
     path("jwt-log-in", JWTLogIn.as_view()),  # log in with JSON Web Tokens
+    path("github-log-in", GitHubLogIn.as_view()),  # log in with GitHub Account
 ]

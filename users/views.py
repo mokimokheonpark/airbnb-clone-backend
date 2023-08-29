@@ -139,7 +139,7 @@ class GitHubLogIn(APIView):
             )
             access_token = access_token.json().get("access_token")
 
-            user_data = request.get(
+            user_data = requests.get(
                 "https://api.github.com/user",
                 headers={
                     "Authorization": f"Bearer {access_token}",
@@ -148,7 +148,7 @@ class GitHubLogIn(APIView):
             )
             user_data = user_data.json()
 
-            user_emails = request.get(
+            user_emails = requests.get(
                 "https://api.github.com/user/emails",
                 headers={
                     "Authorization": f"Bearer {access_token}",

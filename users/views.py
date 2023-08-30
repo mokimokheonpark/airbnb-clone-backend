@@ -156,7 +156,6 @@ class GitHubLogIn(APIView):
                 },
             )
             user_emails = user_emails.json()
-            print(user_emails)
 
             try:
                 user = User.objects.get(email=user_emails[0]["email"])

@@ -91,10 +91,16 @@ class LogIn(APIView):
             password=password,
         )
         if not user:
-            return Response({"Error": "Wrong Username or Password"})
+            return Response(
+                {"Error": "Invalid Username or Password"},
+                status=HTTP_400_BAD_REQUEST,
+            )
 
         login(request, user)
-        return Response({"Pass": "Successfully Logged In"})
+        return Response(
+            {"Pass": "Successfully Logged In"},
+            status=HTTP_200_OK,
+        )
 
 
 class LogOut(APIView):
@@ -102,7 +108,10 @@ class LogOut(APIView):
 
     def post(self, request):
         logout(request)
-        return Response({"Pass": "Successfully Logged Out"})
+        return Response(
+            {"Pass": "Successfully Logged Out"},
+            status=HTTP_200_OK,
+        )
 
 
 class JWTLogIn(APIView):
@@ -118,7 +127,10 @@ class JWTLogIn(APIView):
             password=password,
         )
         if not user:
-            return Response({"Error": "Wrong Username or Password"})
+            return Response(
+                {"Error": "Invalid Username or Password"},
+                status=HTTP_400_BAD_REQUEST,
+            )
 
         token = jwt.encode(
             {"pk": user.pk},

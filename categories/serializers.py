@@ -6,6 +6,7 @@ class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = (
+            "pk",
             "name",
             "category_kind",
         )

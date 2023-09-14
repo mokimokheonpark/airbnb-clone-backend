@@ -70,12 +70,14 @@ class RoomDetailSerializer(ModelSerializer):
         return room.rating()
 
     def get_is_owner(self, room):
-        request = self.context["request"]
+        request = self.context.get("request")
+        if not request:
+            return False
         return room.owner == request.user
 
     def get_is_on_wishlist(self, room):
-        request = self.context["request"]
-        if not request.user.is_authenticated:
+        request = self.context.get("request")
+        if not request or not request.user.is_authenticated:
             return False
         return Wishlist.objects.filter(
             user=request.user,

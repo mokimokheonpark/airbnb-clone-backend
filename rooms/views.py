@@ -218,7 +218,10 @@ class RoomBookings(APIView):
 
     def post(self, request, pk):
         room = self.get_object(pk)
-        serializer = RoomBookingSerializer(data=request.data)
+        serializer = RoomBookingSerializer(
+            data=request.data,
+            context={"room": room},
+        )
         if not serializer.is_valid():
             return Response(serializer.errors)
         new_booking = serializer.save(
@@ -228,6 +231,27 @@ class RoomBookings(APIView):
         )
         serializer = PublicBookingSerializer(new_booking)
         return Response(serializer.data)
+
+
+class RoomBookingsAvailability(APIView):
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except Room.DoesNotExist:
+            raise NotFound
+
+    def get(self, request, pk):
+        room = self.get_object(pk)
+        room_check_in = request.query_params.get("room_check_in")
+        room_check_out = request.query_params.get("room_check_out")
+        booked = Booking.objects.filter(
+            room=room,
+            room_check_in__lt=room_check_out,
+            room_check_out__gt=room_check_in,
+        ).exists()
+        if booked:
+            return Response({"The room is available on the period.": False})
+        return Response({"The room is available on the period.": True})
 
 
 class RoomAmenities(APIView):

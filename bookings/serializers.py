@@ -42,11 +42,13 @@ class RoomBookingSerializer(ModelSerializer):
         return value
 
     def validate(self, data):
+        room = self.context.get("room")
         if data["room_check_out"] <= data["room_check_in"]:
             raise ValidationError(
                 "Error: The date of room_check_out must be greater then the date of room_check_in"
             )
         if Booking.objects.filter(
+            room=room,
             room_check_in__lt=data["room_check_out"],
             room_check_out__gt=data["room_check_in"],
         ).exists():

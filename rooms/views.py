@@ -250,8 +250,8 @@ class RoomBookingsAvailability(APIView):
             room_check_out__gt=room_check_in,
         ).exists()
         if booked:
-            return Response({"The room is available on the period.": False})
-        return Response({"The room is available on the period.": True})
+            return Response({"ok": False})
+        return Response({"ok": True})
 
 
 class RoomAmenities(APIView):

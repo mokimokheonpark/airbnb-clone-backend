@@ -188,3 +188,39 @@ class GitHubLogIn(APIView):
 
         except Exception:
             return Response(status=HTTP_400_BAD_REQUEST)
+
+
+class SignUp(APIView):
+    def post(self, request):
+        try:
+            name = request.data.get("name")
+            email = request.data.get("email")
+            username = request.data.get("username")
+            password = request.data.get("password")
+
+            if User.objects.filter(username=username):
+                return Response(
+                    {"Error": "The username is already in use"},
+                    status=HTTP_400_BAD_REQUEST,
+                )
+            if User.objects.filter(email=email):
+                return Response(
+                    {"Error": "The email is already in use"},
+                    status=HTTP_400_BAD_REQUEST,
+                )
+
+            new_user = User.objects.create(
+                name=name,
+                email=email,
+                username=username,
+            )
+            new_user.set_password(password)
+            new_user.save()
+            login(request, new_user)
+            return Response(
+                {"Pass": "Successfully Signed Up"},
+                status=HTTP_200_OK,
+            )
+
+        except Exception:
+            return Response(status=HTTP_400_BAD_REQUEST)

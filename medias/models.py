@@ -6,7 +6,7 @@ class Photo(CommonModel):
     def __str__(self) -> str:
         return f"{self.room}"
 
-    file = models.URLField()
+    file = models.ImageField()
 
     room = models.ForeignKey(
         "rooms.Room",

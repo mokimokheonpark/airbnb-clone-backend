@@ -6,6 +6,13 @@ class PhotoSerializer(ModelSerializer):
     class Meta:
         model = Photo
         fields = (
-            "pk",
+            "id",
             "file",
+            "room",
         )
+
+
+class PhotoDetailSerializer(ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = "__all__"

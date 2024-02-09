@@ -178,7 +178,15 @@ class RoomPhotos(APIView):
             return Room.objects.get(pk=pk)
         except Room.DoesNotExist:
             raise NotFound
-
+        
+    def get(self, request, pk):
+        room = self.get_object(pk)
+        serializr = PhotoSerializer(
+            room.photos.all(),
+            many=True,
+        )
+        return Response(serializr.data)
+        
     def post(self, request, pk):
         room = self.get_object(pk)
         if room.owner != request.user:

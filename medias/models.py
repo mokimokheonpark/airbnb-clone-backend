@@ -5,7 +5,7 @@ from common.models import CommonModel
 
 class S3MediaStorage(S3Boto3Storage):
     location = "photos"
-    file_overwrite = False
+    file_overwrite = True
 
 
 class Photo(CommonModel):

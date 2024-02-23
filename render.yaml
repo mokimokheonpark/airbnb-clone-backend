@@ -10,7 +10,7 @@ services:
     name: airbnbclone
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn airbnbclone.wsgi:application"
+    startCommand: "gunicorn config.wsgi:application"
     envVars:
       - key: DATABASE_URL
         fromDatabase:

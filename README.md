@@ -4,7 +4,7 @@
 
 ## Technologies Used
 
-[Backend](https://github.com/mokimokheonpark/airbnb-clone-backend)
+**Backend** (https://github.com/mokimokheonpark/airbnb-clone-backend)
 
 - **Python**: Backend programming language.
 - **Django**: Web framework for building robust web applications.
@@ -16,7 +16,7 @@
 - **JWT Authentication**: Secure user authentication mechanism.
 - **API Testing**: Ensures reliability and performance.
 
-[Frontend](https://github.com/mokimokheonpark/airbnb-clone-frontend)
+**Frontend** (https://github.com/mokimokheonpark/airbnb-clone-frontend)
 
 - **TypeScript**: Enhances JavaScript with type safety.
 - **React**: JavaScript library for building user interfaces.
@@ -28,11 +28,24 @@
 - **Client Side Rendering (CSR)**: Renders web pages dynamically in the browser for faster load times.
 - **Responsive Design**: Ensures optimal viewing experience across various devices.
 
-Infrastructure
+**Infrastructure**
 
 - **AWS S3**: Cloud storage service for storing image files securely.
 - **Render**: Deployment platform for hosting web applications.
 - **Namecheap**: Domain registrar for domain management and registration.
+
+## Improvements
+
+The following are some important improvements with future updates for the project.
+
+- Enable adding multiple photos when uploading (currently only one at a time).
+- Enable adding photos when creating a room (currently possible only after creation).
+- Enable users to edit or delete rooms they have uploaded.
+- Create a profile page to display user information and rooms uploaded by the user.
+- Complete the reservation functionality; display rooms reserved by the user on the profile page.
+- Complete commenting and rating functionality for rooms uploaded by other users; display rooms where the user has commented or rated on the profile page.
+- Implement the like feature for rooms uploaded by other users; display rooms the user has liked on the profile page.
+- Enable viewing the user information of the uploader when clicking on the user's name on the room detail page.
 
 ## Contributions
 

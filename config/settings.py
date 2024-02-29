@@ -221,5 +221,5 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # Domain
 
 if not DEBUG:
-    SESSION_COOKIE_DOMAIN = ".airbnbcloneproject.xyz"
-    CSRF_COOKIE_DOMAIN = ".airbnbcloneproject.xyz"
+    SESSION_COOKIE_DOMAIN = ".mokiproject.xyz"
+    CSRF_COOKIE_DOMAIN = ".mokiproject.xyz"

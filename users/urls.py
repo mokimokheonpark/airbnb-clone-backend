@@ -1,5 +1,4 @@
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
 from .views import (
     Users,
     UserProfile,
@@ -10,6 +9,7 @@ from .views import (
     JWTLogIn,
     GitHubLogIn,
     SignUp,
+    CustomAuthToken,
 )
 
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
     path("change-password", ChangePassword.as_view()),
     path("log-in", LogIn.as_view()),  # log in with Cookies
     path("log-out", LogOut.as_view()),
-    path("auth-token-log-in", obtain_auth_token),  # log in with Auth Tokens
+    path("auth-token-log-in", CustomAuthToken.as_view()),  # log in with Auth Tokens
     path("jwt-log-in", JWTLogIn.as_view()),  # log in with JSON Web Tokens
     path("github-log-in", GitHubLogIn.as_view()),  # log in with GitHub Account
     path("sign-up", SignUp.as_view()),

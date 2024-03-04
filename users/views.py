@@ -2,6 +2,8 @@ import jwt
 import requests
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.exceptions import NotFound, ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -107,11 +109,24 @@ class LogOut(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        try:
+            request.user.auth_token.delete()
+        except:
+            pass
         logout(request)
         return Response(
             {"Pass": "Successfully Logged Out"},
             status=HTTP_200_OK,
         )
+
+
+class CustomAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key})
 
 
 class JWTLogIn(APIView):
@@ -172,7 +187,11 @@ class GitHubLogIn(APIView):
             try:
                 user = User.objects.get(email=user_emails[0]["email"])
                 login(request, user)
-                return Response(status=HTTP_200_OK)
+                token, created = Token.objects.get_or_create(user=user)
+                return Response(
+                    {"token": token.key},
+                    status=HTTP_200_OK,
+                )
 
             except User.DoesNotExist:
                 user = User.objects.create(
@@ -184,7 +203,11 @@ class GitHubLogIn(APIView):
                 user.set_unusable_password()
                 user.save()
                 login(request, user)
-                return Response(status=HTTP_200_OK)
+                token, created = Token.objects.get_or_create(user=user)
+                return Response(
+                    {"token": token.key},
+                    status=HTTP_200_OK,
+                )
 
         except Exception:
             return Response(status=HTTP_400_BAD_REQUEST)
@@ -216,9 +239,12 @@ class SignUp(APIView):
             )
             new_user.set_password(password)
             new_user.save()
-            login(request, new_user)
+            token, created = Token.objects.get_or_create(user=new_user)
             return Response(
-                {"Pass": "Successfully Signed Up"},
+                {
+                    "Pass": "Successfully Signed Up",
+                    "token": token.key,
+                },
                 status=HTTP_200_OK,
             )
 

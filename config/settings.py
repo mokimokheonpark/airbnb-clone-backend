@@ -173,8 +173,8 @@ AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
         "config.authentication.JWTAuthentication",
     ]
 }
@@ -188,8 +188,14 @@ PAGE_SIZE = 5
 # Fetch
 
 if DEBUG:
-    CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:3000"]
-    CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000"]
+    CORS_ALLOWED_ORIGINS = [
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",
+    ]
 else:
     CORS_ALLOWED_ORIGINS = ["https://airbnb-clone-frontend-4e4e.onrender.com"]
     CSRF_TRUSTED_ORIGINS = ["https://airbnb-clone-frontend-4e4e.onrender.com"]

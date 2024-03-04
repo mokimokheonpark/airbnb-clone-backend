@@ -1,6 +1,6 @@
 # Airbnb-Clone
 
-[Airbnb-Clone](https://mokiproject.xyz) is a full-stack web application project aiming to replicate the functionality and design of Airbnb.
+[Airbnb-Clone](https://airbnb-clone-frontend-4e4e.onrender.com/) is a full-stack web application project aiming to replicate the functionality and design of Airbnb.
 
 ## Technologies Used
 

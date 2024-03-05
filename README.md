@@ -32,7 +32,6 @@
 
 - **AWS S3**: Cloud storage service for storing image files securely.
 - **Render**: Deployment platform for hosting web applications.
-- **Namecheap**: Domain registrar for domain management and registration.
 
 ## Improvements
 

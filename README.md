@@ -1,6 +1,6 @@
 # Airbnb-Clone
 
-[Airbnb-Clone](https://airbnb-clone-frontend-4e4e.onrender.com/) is a full-stack web application project aiming to replicate the functionality and design of Airbnb.
+[Airbnb-Clone](https://airbnb-clone-frontend-4e4e.onrender.com/) is a full-stack web application project aiming to replicate the functionality and design of Airbnb. Feel free to explore the application and test its functionalities. Please be aware that accessing the application URL (website) may experience delays due to the deployment setup. The free instance may temporarily spin down with inactivity, resulting in initial request delays of 50 seconds or more. Apologies for any inconvenience caused and thank you for your patience.
 
 ## Technologies Used
 

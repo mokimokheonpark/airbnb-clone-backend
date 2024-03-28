@@ -12,7 +12,7 @@
 - **Django Administration**: Admin interface for managing backend data.
 - **Object-Relational Mapping (ORM)**: Simplifies database interactions.
 - **PostgreSQL**: Relational database management system.
-- **REST APIs**: Architecture for building scalable APIs.
+- **REST API**: Architecture for building scalable APIs.
 - **JWT Authentication**: Secure user authentication mechanism.
 - **API Testing**: Ensures reliability and performance.
 

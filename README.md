@@ -33,7 +33,7 @@ Airbnb-Clone is a full-stack web application project aiming to replicate the fun
 - **AWS S3**: Cloud storage service for storing image files securely.
 - **Render**: Deployment platform for hosting web applications.
 
-**Deployment**
+## Deployment
 
 The application was previously deployed on Render but has been temporarily discontinued to reduce monthly expenses.
 
